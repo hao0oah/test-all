@@ -1,0 +1,92 @@
+<!--
+各个进制之间的相互转换，暂时只支持>0的整数
+@date: 2017-10-27
+@author: hao0oah
+-->
+<html>
+<head>
+    <title>进制转换</title>
+</head>
+<body>
+<div>
+    <table>
+        <tr>
+            <td>十进制：</td>
+            <td><input type="text" id="shi"><br></td>
+        </tr>
+        <tr>
+            <td>二进制：</td>
+            <td><input type="text" id="er"><br></td>
+        </tr>
+        <tr>
+            <td>八进制：</td>
+            <td><input type="text" id="ba"><br></td>
+        </tr>
+        <tr>
+            <td>十六进制：</td>
+            <td><input type="text" id="shl"><br></td>
+        </tr>
+        <tr><td><input type="button" id="change" value="开始转换"></td></tr>
+
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    document.getElementById("change").onclick = function(e){
+        console.info("click");
+
+        var er = document.getElementById("er").value;
+        var ba = document.getElementById("ba").value;
+        var shi = document.getElementById("shi").value;
+        var shl = document.getElementById("shl").value;
+
+        console.info("er="+er+",ba="+ba+",shi="+shi+"shl="+shl);
+
+        var ten = 0;
+        if(shi){
+            ten = shi;
+        } else if(er){
+            ten = otherToTen(er,2);
+        } else if(ba){
+            ten = otherToTen(ba,8);
+        } else if(shl){
+            ten = otherToTen(shl,16);
+        }
+
+        console.info("ten="+ten);
+
+        document.getElementById("er").value = tenToOther(ten,2);
+        document.getElementById("ba").value = tenToOther(ten,8);
+        document.getElementById("shi").value = tenToOther(ten,10);
+        document.getElementById("shl").value = tenToOther(ten,16);
+
+    };
+
+    // 其他进制转换成十进制（暂不支持16进制）
+    function otherToTen(no,m){
+        var ten = 0;
+        var tmp = 1;
+        while(no > 0){
+            ten += no%10*tmp;
+            no = parseInt(no/10);
+            tmp *= m;
+        }
+        return ten;
+    }
+
+    // 十进制转换成其他进制
+    function tenToOther(no,n){
+        var shl = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'];
+        var other = '';
+        while(no>0){
+            var tmp = no%n;
+            if(n>10) tmp = shl[tmp];
+            other = tmp + other;
+            no = parseInt(no/n);
+        }
+        return other;
+    }
+</script>
+</body>
+</html>
